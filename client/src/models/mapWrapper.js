@@ -1,5 +1,5 @@
 var MapWrapper = function(coords, zoom) {
-  var container = document.querySelector("#map");
+  var container = document.querySelector("#mapDiv");
     this.googleMap = new google.maps.Map(container, {
     center: coords,
     zoom: zoom

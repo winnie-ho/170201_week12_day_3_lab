@@ -13,9 +13,10 @@ var UI = function(){
     this.render(result);
   }.bind(this));
 
+  mapDiv = document.querySelector("#mapDiv");
+  mapDiv.innerHTML = "";
   var centre = {lat: 55.9533, lng:-3.1883 };
-
-  var map = new MapWrapper(centre, 14);
+  map = new MapWrapper(centre, 14);
 
 }
 
@@ -43,13 +44,19 @@ UI.prototype = {
     addedCountry.innerText = "Country: " + countryObject.name + "\n Capital: " + countryObject.capital;
     var blDiv = document.querySelector("#bucket-list");
     blDiv.appendChild(addedCountry);
+    
+    map = new MapWrapper({lat: countryObject.latlng[0], lng: countryObject.latlng[1]}, 2);
 
-      var newCountry = {
-        name: countryObject.name,
-        capital: countryObject.capital
-      }
+      console.log(map);
+      map.addMarker({lat: countryObject.latlng[0], lng: countryObject.latlng[1]});
+    
 
-      console.log("country added to bucket list: ", countryObject.name);
+    
+    var newCountry = {
+      name: countryObject.name,
+      capital: countryObject.capital
+    }
+    console.log("country added to bucket list: ", countryObject.name);
     var countries = new Countries();    
     countries.makePost("/", newCountry, function(data){
     });
@@ -63,6 +70,10 @@ UI.prototype = {
         blDiv.appendChild(blCountry);
       }
   }
+
+
+
+
 }
 
 module.exports = UI;

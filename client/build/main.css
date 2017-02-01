@@ -83,7 +83,7 @@ select{
   overflow-x: hidden;
 }
 
-#map{
+#mapDiv{
   border: solid 1px white;
   border-radius: 3px;
   width: 600px;

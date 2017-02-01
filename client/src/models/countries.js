@@ -40,7 +40,6 @@ Countries.prototype = {
     this.makeRequest("http://localhost:3000/api", function(){
       if(this.status !== 200) return;
       var jsonString = this.responseText;
-      console.log("db results: ", jsonString);
       var results = JSON.parse(jsonString);
       var countriesDB = self.populateBucketList(results);
       callback(countriesDB);
