@@ -85,23 +85,26 @@ var UI = function(){
     this.render(result);
   }.bind(this));
 
-  // var centre = {lat: 55.9533, lng:-3.1883 };
+  var centre = {lat: 55.9533, lng:-3.1883 };
 
-  // var map = new MapWrapper(centre, 14);
+  var map = new MapWrapper(centre, 14);
 
 }
 
 UI.prototype = {
   render: function(countriesList){
     var countriesDiv = document.querySelector("#countries");
+    var selectLabel = document.createElement("h3");
+    selectLabel.innerText = "Select a country:"
     var countriesSelect = document.createElement("select");
       for (var country of countriesList){
         var place = document.createElement("option");
         place.innerText = country.name;
         place.value = JSON.stringify(country);
 
+        countriesDiv.appendChild(selectLabel);
+        selectLabel.appendChild(countriesSelect);
         countriesSelect.appendChild(place);
-        countriesDiv.appendChild(countriesSelect);
       }
   },
 
@@ -318,9 +321,9 @@ MapWrapper.prototype = {
   // }
 
 
-
 }
 
+module.exports = MapWrapper;
 
 
 
