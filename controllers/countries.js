@@ -43,6 +43,8 @@ countryRouter.post('/', function(req, res) {
   var country = new Country({
     name: req.body.name,
     capital: req.body.capital,
+    xcoord: req.body.xcoord,
+    ycoord: req.body.ycoord
   });
   query.add(country, function(results){
     // res.json(results);

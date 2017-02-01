@@ -15,9 +15,8 @@ var UI = function(){
 
   mapDiv = document.querySelector("#mapDiv");
   mapDiv.innerHTML = "";
-  var centre = {lat: 55.9533, lng:-3.1883 };
-  map = new MapWrapper(centre, 14);
-
+  var centre = {lat: 20, lng: 0 };
+  this.map = new MapWrapper(centre, 2);
 }
 
 UI.prototype = {
@@ -35,6 +34,7 @@ UI.prototype = {
         selectLabel.appendChild(countriesSelect);
         countriesSelect.appendChild(place);
       }
+    console.log(this.map);
   },
 
   handleBLButton: function(){
@@ -44,22 +44,20 @@ UI.prototype = {
     addedCountry.innerText = "Country: " + countryObject.name + "\n Capital: " + countryObject.capital;
     var blDiv = document.querySelector("#bucket-list");
     blDiv.appendChild(addedCountry);
-    
-    map = new MapWrapper({lat: countryObject.latlng[0], lng: countryObject.latlng[1]}, 2);
-
-      console.log(map);
-      map.addMarker({lat: countryObject.latlng[0], lng: countryObject.latlng[1]});
-    
-
-    
+     
     var newCountry = {
       name: countryObject.name,
-      capital: countryObject.capital
+      capital: countryObject.capital,
+      xcoord: countryObject.latlng[0],
+      ycoord: countryObject.latlng[1]
     }
+
     console.log("country added to bucket list: ", countryObject.name);
     var countries = new Countries();    
     countries.makePost("/", newCountry, function(data){
     });
+
+    document.location.reload(true);
   },
 
   renderBucketList: function(bucketList){
@@ -68,11 +66,11 @@ UI.prototype = {
         var blCountry = document.createElement("p");
         blCountry.innerText = "Country: " + country.name + "\n Capital: " + country.capital;
         blDiv.appendChild(blCountry);
+        console.log("Country in the loop:", country.name);
+        console.log(this.map);
+        this.map.addMarker({lat: country.xcoord, lng: country.ycoord});
       }
   }
-
-
-
 
 }
 

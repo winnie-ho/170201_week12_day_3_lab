@@ -7,8 +7,8 @@ h1{
   text-align: center;
   font-size: 80px;
   color: #06436A;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
 
 h2{
@@ -46,7 +46,8 @@ select{
   flex-direction: row;
   justify-content: center;
   align-content: center;
-  height: 50px;
+  height: 40px;
+  margin-bottom: 10px;
 }
 
 #countries{
@@ -74,9 +75,9 @@ select{
 #bucket-list{
   border: solid 1px white;
   border-radius: 3px;
-  width: 600px;
-  height: 500px;
-  margin: 10px;
+  width: 320px;
+  height: 530px;
+  margin: 5px;
   padding-top: -10px;
   padding-left: 20px;
   overflow-y: scroll;
@@ -86,9 +87,7 @@ select{
 #mapDiv{
   border: solid 1px white;
   border-radius: 3px;
-  width: 600px;
-  height: 500px;
-  margin: 10px;
-
-
+  width: 920px;
+  height: 530px;
+  margin: 5px;
 }
