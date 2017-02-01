@@ -1,0 +1,55 @@
+body{
+  background-color: #81BEF7
+}
+
+h1{
+  font-family: Tradizional DEMO;
+  text-align: center;
+  font-size: 60px;
+}
+
+p{
+  font-family: courier;
+}
+
+
+#countries{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#select-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#main-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#bucket-list{
+  background-color: white;
+  border: solid 1px gray;
+  border-radius: 3px;
+  width: 600px;
+  height: 500px;
+  margin: 10px;
+  padding-left: 20px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#map{
+  background-color: white;
+  border: solid 1px gray;
+  border-radius: 3px;
+  width: 600px;
+  height: 500px;
+  margin: 10px;
+
+
+}
