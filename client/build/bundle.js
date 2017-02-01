@@ -72,14 +72,22 @@
 
 var Countries = __webpack_require__(2);
 var Country = __webpack_require__(3);
+var MapWrapper = __webpack_require__(4);
 
 var UI = function(){
   this.countries = new Countries();
+
+  this.countries.allDB(function(result){
+    this.renderBucketList(result);
+  }.bind(this));
+  
   this.countries.all(function(result){
     this.render(result);
   }.bind(this));
 
-  // this.countries.makeRequest("/", renderBucketList())
+  // var centre = {lat: 55.9533, lng:-3.1883 };
+
+  // var map = new MapWrapper(centre, 14);
 
 }
 
@@ -104,19 +112,26 @@ UI.prototype = {
     addedCountry.innerText = "Country: " + countryObject.name + "\n Capital: " + countryObject.capital;
     var blDiv = document.querySelector("#bucket-list");
     blDiv.appendChild(addedCountry);
-    console.log(selectedCountry);
 
       var newCountry = {
         name: countryObject.name,
         capital: countryObject.capital
       }
 
-
+      console.log("country added to bucket list: ", countryObject.name);
     var countries = new Countries();    
     countries.makePost("/", newCountry, function(data){
-      console.log(data);
     });
-}
+  },
+
+  renderBucketList: function(bucketList){
+    var blDiv = document.querySelector("#bucket-list");
+      for(var country of bucketList){
+        var blCountry = document.createElement("p");
+        blCountry.innerText = "Country: " + country.name + "\n Capital: " + country.capital;
+        blDiv.appendChild(blCountry);
+      }
+  }
 }
 
 module.exports = UI;
@@ -176,21 +191,27 @@ Countries.prototype = {
     });
   }, 
 
-  populateBucketList: function(results){
+  allDB: function(callback){
     var self = this;
-    this.makeRequest("", function(){
-      if(this.status !== 200){
-        return;
-      }
-    var blcountries = [];
+    this.makeRequest("http://localhost:3000/api", function(){
+      if(this.status !== 200) return;
+      var jsonString = this.responseText;
+      console.log("db results: ", jsonString);
+      var results = JSON.parse(jsonString);
+      var countriesDB = self.populateBucketList(results);
+      callback(countriesDB);
+    })
+  },
+
+  populateBucketList: function(results){
+    var blCountries = [];
     for (var result of results){
       var country = new Country (result);
-      countries.push(country);
+      blCountries.push(country);
     }
-    return countries;
-      
-    })
+    return blCountries;
   }
+
 }
 
 module.exports = Countries;
@@ -209,6 +230,99 @@ Country.prototype = {
 }
 
 module.exports = Country;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+var MapWrapper = function(coords, zoom) {
+  var container = document.querySelector("#map");
+    this.googleMap = new google.maps.Map(container, {
+    center: coords,
+    zoom: zoom
+    });
+}
+
+
+MapWrapper.prototype = {
+  addMarker: function(coords){
+    var marker = new google.maps.Marker({
+      position: coords,
+      map: this.googleMap
+    });
+    console.log("marker added");
+    return marker;
+  },
+
+  // addClickEvent: function(){
+  //   google.maps.event.addListener(this.googleMap, "click", function(event){
+  //     console.log("map has been clicked!");
+
+  //     console.log(event);
+
+  //     console.log("coords selected are: " + event.latLng.lat(), event.latLng.lng());
+  //     var coordsSelected = {lat: event.latLng.lat(), lng: event.latLng.lng()};
+
+  //     this.addMarker(coordsSelected);
+
+  //   }.bind(this));
+  // },
+
+  // addInfoWindow: function(map, marker, contentString){
+  //   var infoWindow = new google.maps.InfoWindow({
+  //         content: contentString
+  //       });
+  //     marker.addListener("click", function(){
+  //     infoWindow.open(this.googleMap, marker);
+  //   })
+  // }, 
+
+  // geoLocate: function(runArray){
+
+  //   console.log(runArray);
+  //   navigator.geolocation.getCurrentPosition(function(position) {
+  //     var centre = {lat: position.coords.latitude, lng: position.coords.longitude}; 
+  //     this.googleMap.setCenter(centre); 
+  //     var marker = this.addMarker(centre);
+  //     var nearRuns = document.querySelector("#near-runs");
+  //     this.addInfoWindow(this.googleMap, marker, "You Are Here")
+  //     for (var run of runArray){
+  //       if (Math.sqrt(Math.pow((run.start_latlng[0] - position.coords.latitude),2))< 0.005){
+  //         var runMarker = this.addMarker({lat: run.start_latlng[0], lng: run.start_latlng[1]});
+  //         this.addInfoWindow(this.googleMap, runMarker, run.name);
+  //         var nearRunsInfo = document.createElement("p");
+  //         nearRunsInfo.innerText = run.name + " | " + ((run.distance/1000).toFixed(2)) + "km";
+  //         nearRuns.appendChild(nearRunsInfo);
+  //         var division = document.createElement("hr");
+  //         nearRuns.appendChild(division);
+  //         console.log(run.start_latlng[0])
+  //         console.log(position.coords.latitude);
+  //         console.log(run.start_latlng[0]-position.coords.latitude)
+  //         console.log(run.name + "added");
+
+  //       } else if (Math.sqrt(Math.pow((run.start_latlng[1] - position.coords.longitude),2)) < 0.005){
+  //         var runMarker = this.addMarker({lat: run.start_latlng[0], lng: run.start_latlng[1]});
+  //         this.addInfoWindow(this.googleMap, runMarker, run.name);
+  //         var nearRunsInfo = document.createElement("p");
+  //         nearRunsInfo.innerText = run.name + " | " + ((run.distance/1000).toFixed(2)) + "km";
+  //         nearRuns.appendChild(nearRunsInfo);
+  //         var division = document.createElement("hr");
+  //         nearRuns.appendChild(division);
+  //         console.log(run.start_latlng[1])
+  //         console.log(position.coords.longitude);
+  //         console.log(run.start_latlng[1]-position.coords.longitude);
+  //         console.log(run.name + "added");
+  //       }
+  //     }
+  //   }.bind(this)); 
+  // }
+
+
+
+}
+
+
+
 
 /***/ })
 /******/ ]);

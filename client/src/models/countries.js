@@ -35,21 +35,27 @@ Countries.prototype = {
     });
   }, 
 
-  populateBucketList: function(results){
+  allDB: function(callback){
     var self = this;
-    this.makeRequest("", function(){
-      if(this.status !== 200){
-        return;
-      }
-    var blcountries = [];
+    this.makeRequest("http://localhost:3000/api", function(){
+      if(this.status !== 200) return;
+      var jsonString = this.responseText;
+      console.log("db results: ", jsonString);
+      var results = JSON.parse(jsonString);
+      var countriesDB = self.populateBucketList(results);
+      callback(countriesDB);
+    })
+  },
+
+  populateBucketList: function(results){
+    var blCountries = [];
     for (var result of results){
       var country = new Country (result);
-      countries.push(country);
+      blCountries.push(country);
     }
-    return countries;
-      
-    })
+    return blCountries;
   }
+
 }
 
 module.exports = Countries;

@@ -10,12 +10,17 @@ var query = new CountryQuery();
 
 // index
 countryRouter.get('/', function(req, res) {
-  // res.json(countries);
-  query.all(function(results){
+  query.allFromdb(function(results){
     res.json(results);
   })
 });
 
+// API index
+countryRouter.get('/api', function(req, res) {
+  query.allFromdb(function(results){
+    res.json(results);
+  })
+});
 
 //country by id
 countryRouter.get('/:id', function(req, res){

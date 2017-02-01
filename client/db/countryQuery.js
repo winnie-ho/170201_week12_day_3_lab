@@ -8,6 +8,7 @@ CountryQuery.prototype = {
   allFromdb: function(onQueryFinished){
     MongoClient.connect(this.url, function(err, db){
       var collection = db.collection("blCountries");
+      console.log(collection);
       collection.find().toArray(function(err, docs){
         onQueryFinished(docs);
       });
