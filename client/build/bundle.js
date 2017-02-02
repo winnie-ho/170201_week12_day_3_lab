@@ -63,16 +63,33 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+var Country = function(options){
+  this.name = options.name;
+  this.capital = options.capital;
+  this.xcoord = options.xcoord;
+  this.ycoord = options.ycoord;
+}
+
+Country.prototype = {
+
+}
+
+module.exports = Country;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Countries = __webpack_require__(2);
-var Country = __webpack_require__(3);
-var MapWrapper = __webpack_require__(4);
+var Country = __webpack_require__(0);
+var MapWrapper = __webpack_require__(3);
 
 var UI = function(){
   this.countries = new Countries();
@@ -149,24 +166,10 @@ UI.prototype = {
 module.exports = UI;
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var UI = __webpack_require__(0);
-
-var app = function() {
-  var ui = new UI();
-  var addButton = document.querySelector("#bl-button");
-  addButton.onclick = ui.handleBLButton;
-}
-
-window.onload = app;
-
-/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Country = __webpack_require__(3);
+var Country = __webpack_require__(0);
 
 var Countries = function(){
 
@@ -229,23 +232,6 @@ module.exports = Countries;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
-
-var Country = function(options){
-  this.name = options.name;
-  this.capital = options.capital;
-  this.xcoord = options.xcoord;
-  this.ycoord = options.ycoord;
-}
-
-Country.prototype = {
-
-}
-
-module.exports = Country;
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports) {
 
 var MapWrapper = function(coords, zoom) {
@@ -336,6 +322,20 @@ MapWrapper.prototype = {
 module.exports = MapWrapper;
 
 
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var UI = __webpack_require__(1);
+
+var app = function() {
+  var ui = new UI();
+  var addButton = document.querySelector("#bl-button");
+  addButton.onclick = ui.handleBLButton;
+}
+
+window.onload = app;
 
 /***/ })
 /******/ ]);
